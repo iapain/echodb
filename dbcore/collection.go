@@ -2,7 +2,7 @@ package dbcore
 
 import (
 	"encoding/binary"
-	"github.com/gophergala/echodb/dberr"
+	"github.com/espresse/echodb/dberr"
 )
 
 const (

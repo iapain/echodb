@@ -4,7 +4,7 @@ package dbcore
 
 import (
 	"fmt"
-	"github.com/gophergala/echodb/gommap"
+	"github.com/espresse/echodb/gommap"
 	"os"
 )
 

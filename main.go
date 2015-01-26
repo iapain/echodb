@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/gophergala/echodb/db"
-	"github.com/gophergala/echodb/dbhttp"
+	"github.com/espresse/echodb/db"
+	"github.com/espresse/echodb/dbhttp"
 	"time"
 )
 

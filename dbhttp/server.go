@@ -3,8 +3,8 @@ package dbhttp
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/gophergala/echodb/db"
-	"github.com/gophergala/echodb/dbwebsocket"
+	"github.com/espresse/echodb/db"
+	"github.com/espresse/echodb/dbwebsocket"
 	"github.com/gorilla/mux"
 	"github.com/justinas/alice"
 	"log"
@@ -112,13 +112,18 @@ func deleteCollectionController(w http.ResponseWriter, r *http.Request) {
 func documentsController(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	col := echodb.Get(params["name"])
-	docs := make(map[string]interface{})
-	for doc := range col.All() {
-		docs[strconv.Itoa(doc["_id"].(int))] = doc
-	}
-	send(w, r, docs)
-}
 
+	docs := make([]map[string]interface{}, 0)
+	for doc := range col.All() {
+		docs = append(docs, doc)
+	}
+	mj, je := json.Marshal(docs)
+	if je != nil {
+		fmt.Fprint(w, nil)
+		return
+	}
+	fmt.Fprint(w, string(mj))
+}
 // read document
 func documentController(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
@@ -162,8 +167,8 @@ func newDocumentController(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(500), 500)
 		return
 	}
-	log.Println(id)
-	send(w, r, Response{"id": id})
+
+	send(w, r, Response{"_id": strconv.Itoa(id)})
 }
 
 // update document
@@ -223,7 +228,7 @@ func deleteDocumentController(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	send(w, r, Response{"id": id})
+	send(w, r, Response{"_id": params["id"]})
 }
 
 func serveWs(w http.ResponseWriter, r *http.Request) {

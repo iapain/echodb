@@ -4,8 +4,8 @@ package db
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/gophergala/echodb/dbcore"
-	"github.com/gophergala/echodb/dbwebsocket"
+	"github.com/espresse/echodb/dbcore"
+	"github.com/espresse/echodb/dbwebsocket"
 	"math/rand"
 	"os"
 	"path"
@@ -93,7 +93,7 @@ func (col *Collection) Insert(doc map[string]interface{}) (id int, err error) {
 	part.Lock.Unlock()
 	col.db.access.RUnlock()
 
-	doc["_id"] = id
+	doc["_id"] = strconv.Itoa(id)
 	emitDoc(col.name, "create", doc)
 	return
 }
@@ -130,7 +130,7 @@ func (col *Collection) All() chan map[string]interface{} {
 			for d := range part.All(j, partDiv) {
 				doc := make(map[string]interface{})
 				json.Unmarshal(d.Data, &doc)
-				doc["_id"] = d.Id
+				doc["_id"] = strconv.Itoa(d.Id)
 				c <- doc
 			}
 		}
@@ -178,7 +178,7 @@ func (col *Collection) Update(id int, doc map[string]interface{}) error {
 	part.Lock.Unlock()
 	col.db.access.RUnlock()
 
-	doc["_id"] = id
+	doc["_id"] = strconv.Itoa(id)
 	emitDoc(col.name, "update", doc)
 	return nil
 }
@@ -214,7 +214,7 @@ func (col *Collection) Delete(id int) error {
 	part.UnlockUpdate(id)
 	part.Lock.Unlock()
 	col.db.access.RUnlock()
-	emitDoc(col.name, "delete", map[string]interface{}{"_id": id})
+	emitDoc(col.name, "delete", map[string]interface{}{"_id": strconv.Itoa(id)})
 	return nil
 }
 
