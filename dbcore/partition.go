@@ -2,7 +2,7 @@
 package dbcore
 
 import (
-	"github.com/espresse/echodb/dberr"
+	"github.com/iapain/echodb/dberr"
 	"sync"
 )
 
@@ -32,10 +32,6 @@ func (part *Partition) Insert(id int, data []byte) (physID int, err error) {
 		return
 	}
 	part.lookup.Put(id, physID)
-	err = part.lookup.Sync()
-	if err != nil {
-		return
-	}
 	return
 }
 
@@ -95,11 +91,6 @@ func (part *Partition) Delete(id int) (err error) {
 	}
 	part.col.Delete(physID[0])
 	part.lookup.Remove(id, physID[0])
-
-	if err := part.lookup.Sync(); err != nil {
-		return err
-	}
-
 	return
 }
 

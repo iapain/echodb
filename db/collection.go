@@ -4,8 +4,8 @@ package db
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/espresse/echodb/dbcore"
-	"github.com/espresse/echodb/dbwebsocket"
+	"github.com/iapain/echodb/dbcore"
+	"github.com/iapain/echodb/dbwebsocket"
 	"math/rand"
 	"os"
 	"path"
