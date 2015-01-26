@@ -18,8 +18,8 @@ Install
 mkdir echodb
 cd echodb
 export GOPATH=`pwd`
-go get github.com/gophergala/echodb
-cd src/github.com/gophergala/echodb/
+go get github.com/iapain/echodb
+cd src/github.com/iapain/echodb/
 go run main.go
 ```
 You may also run it from binary but you need to copy todoapp in bin
